@@ -44,12 +44,12 @@ public class Order {
   @JoinColumn(name = "user_id", nullable = false)
   User user;
 
-  @OneToMany(mappedBy = "order")
-  List<OrderProduct> orderProducts = new ArrayList<>();
-
   //돈 계산이나 수치에 예민할 때
   @Column(nullable = false)
   BigDecimal totalPrice;
+
+  @OneToMany(mappedBy = "order")
+  List<OrderProduct> orderProducts = new ArrayList<>();
 
   @Column(nullable = false, updatable = false)
   @CreationTimestamp

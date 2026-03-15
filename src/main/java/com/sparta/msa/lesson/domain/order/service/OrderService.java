@@ -2,7 +2,7 @@ package com.sparta.msa.lesson.domain.order.service;
 
 import com.sparta.msa.lesson.domain.order.entity.Order;
 import com.sparta.msa.lesson.domain.order.repository.OrderRepository;
-import com.sparta.msa.lesson.domain.user.entity.User;
+import com.sparta.msa.lesson.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,15 +12,22 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class OrderService {
 
+  private final UserRepository userRepository;
   private final OrderRepository orderRepository;
 
-  public void getByUserId() {
-    Order order = orderRepository.findById(1L).get();
-    //작업 중..
+  public void getById(Long id) {
+    // 주문 리스트 검색
+    // TODO : 특정 주문 검색
+    Order order = orderRepository.findById(1d).get();
+    // SELECT * FROM orders o WHERE o.id = 'id' ;
+    // JPA 객체와 테이블 orders --> 객체 order
+    // user에 LAZY 설정이 있으면 user는 프록시 객체로 구현된다.
 
-    // TODO : 해당 주문자에 이름을 필요함!
-    User user = order.getUser();
-    log.info("주문자의 이름 : {} ", user.toString());
+  }
+
+  public void getByUserId() {
+    // 주문 리스트 검색
+    // TODO : 특정 주문 검색
 
   }
 
