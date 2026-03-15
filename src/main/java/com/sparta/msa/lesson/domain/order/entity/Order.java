@@ -40,7 +40,7 @@ public class Order {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER) // 즉시 로딩 설정
   @JoinColumn(name = "user_id", nullable = false)
   User user;
 

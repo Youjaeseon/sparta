@@ -31,6 +31,9 @@ public class OrderService {
     // 결과 : 개발자가 연관관계 테이블이 필요한 시점에 호응함
     // N+1의 근본적인 문제는 해결할 수 없지만 불필요한 쿼리는 막을 수 있다.
 
+    // 즉시 로딩(EAGER)의 전제 조건 : order와 user는 무조건 같이 검색 되어야 한다
+    // 될 때도 있고 안될 때도 있다 -> LAZY
+
   }
 
   public void getByUserId() {
