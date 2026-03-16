@@ -14,4 +14,8 @@ public class BeanConfig {
     return new UserRepositoryImpl(); // 싱글톤 패턴
 
   }
+
+  // 싱글톤 -> 프로그램 전체에서 특정 클래스의 인스턴스가 단 하나만 존재해야함.
+  // 풀링 -> 임의의 인스턴스를 미리 생성해서 (100~~) 교체로 사용하는 패턴
+  // JVM이 메모리를 많이 먹어서 Bean은 티가 나지 않는다.
 }

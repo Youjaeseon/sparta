@@ -15,8 +15,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+
+@Component // 해당 어노테이션이 붙은 클래스는 스프링 빈으로 등록 됨
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -24,6 +27,9 @@ public class UserService {
 
   // 개선점 1. 인스턴스의 생성과 해제를 최소화 해야한다.
   // 개선점 2. 수정 작업한 코드만 고치는 것이 아닌 참조를 하고 있는 모든 클래스를 수정하는 상황
+  // 스프링 컨테이너 new Repository 인스턴스가 등록 되어 있는 상태 -> DI
+  //  DI 전체 --> DI 받는 쪽과 주입당하는 쪽 스프링 빈으로 등록 되어 있어야 함.
+  
   private final UserRepository userRepository = new UserRepositoryImpl() {
     @Override
     public Optional<User> findByEmail(String email) {
