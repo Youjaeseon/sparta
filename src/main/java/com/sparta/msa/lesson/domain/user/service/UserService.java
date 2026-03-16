@@ -4,7 +4,7 @@ import com.sparta.msa.lesson.domain.order.entity.Order;
 import com.sparta.msa.lesson.domain.order.repository.OrderRepository;
 import com.sparta.msa.lesson.domain.user.entity.User;
 import com.sparta.msa.lesson.domain.user.repository.UserRepository;
-import com.sparta.msa.lesson.domain.user.repository.UserRepositoryimpl;
+import com.sparta.msa.lesson.domain.user.repository.UserRepositoryImpl;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -22,7 +22,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
 
-  private final UserRepository userRepository = new UserRepositoryimpl() {
+  // 개선점 1. 인스턴스의 생성과 해제를 최소화 해야한다.
+  // 개선점 2. 수정 작업한 코드만 고치는 것이 아닌 참조를 하고 있는 모든 클래스를 수정하는 상황
+  private final UserRepository userRepository = new UserRepositoryImpl() {
     @Override
     public Optional<User> findByEmail(String email) {
       return Optional.empty();
