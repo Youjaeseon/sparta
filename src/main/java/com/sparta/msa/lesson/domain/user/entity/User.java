@@ -3,6 +3,7 @@ package com.sparta.msa.lesson.domain.user.entity;
 import com.sparta.msa.lesson.domain.order.entity.Order;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,6 +17,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -52,8 +54,9 @@ public class User {
   @Column
   LocalDateTime updatedAt;
 
-  @OneToMany(mappedBy = "user")
-  List<Order> orders = new ArrayList<>();
+  @BatchSize(size = 20)
+  @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+  private List<Order> orders = new ArrayList<>();
 
 
   @Builder // 빌더 패턴으로 객체를 생성할 수 있게 합니다.
