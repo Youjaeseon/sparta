@@ -1,3 +1,15 @@
+CREATE TABLE products
+(
+    id          BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    category_id BIGINT,
+    name        VARCHAR(255)   NOT NULL,
+    description TEXT,
+    price       DECIMAL(10, 2) NOT NULL,
+    stock       INT            NOT NULL DEFAULT 0,
+    created_at  TIMESTAMP               DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE orders
 (
     id          BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -17,7 +29,6 @@ CREATE TABLE order_products
     price      DECIMAL(10, 2) NOT NULL  -- 주문 시점의 상품 가격
 );
 
--- categories Table
 CREATE TABLE categories
 (
     id         BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -25,17 +36,4 @@ CREATE TABLE categories
     parent_id  BIGINT                DEFAULT NULL, -- FK: 부모 카테고리의 id를 참조
     created_at TIMESTAMP             DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
--- product Table
-CREATE TABLE products
-(
-    id          BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    category_id BIGINT,
-    name        VARCHAR(255)   NOT NULL,
-    description TEXT,
-    price       DECIMAL(10, 2) NOT NULL,
-    stock       INT            NOT NULL DEFAULT 0,
-    created_at  TIMESTAMP               DEFAULT CURRENT_TIMESTAMP,
-    updated_at  TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
