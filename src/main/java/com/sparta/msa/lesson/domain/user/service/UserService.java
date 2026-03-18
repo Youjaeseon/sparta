@@ -1,37 +1,41 @@
 package com.sparta.msa.lesson.domain.user.service;
 
-import com.sparta.msa.lesson.domain.order.entity.Order;
-import com.sparta.msa.lesson.domain.order.repository.OrderRepository;
+import com.sparta.msa.lesson.domain.user.dto.request.UserRequest;
+import com.sparta.msa.lesson.domain.user.dto.response.UserResponse;
 import com.sparta.msa.lesson.domain.user.entity.User;
+import com.sparta.msa.lesson.domain.user.mapper.UserMapper;
 import com.sparta.msa.lesson.domain.user.repository.UserRepository;
-import java.util.List;
+import com.sparta.msa.lesson.global.exception.DomainException;
+import com.sparta.msa.lesson.global.exception.DomainExceptionCode;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
   private final UserRepository userRepository;
-  private final OrderRepository orderRepository;
 
-  public void getUser() {
+  private final UserMapper userMapper;
+  private final PasswordEncoder passwordEncoder; // 비밀번호 암호화를 위한 의존성 주입
 
-    User user = userRepository.findById(1L).get();
-    // 20개씩 묶어서 쿼리가 실행
-    // 처리중 ..!
-
-    // TODO : 해당 유저의 주문 내역도 같이 Response
-    List<Order> orders = orderRepoository.findByUser(user);
-    for (Order order : orders) {
-      log.info("주문 상태 : {}", order.toString());
+  @Transactional
+  public UserResponse save(UserRequest request) {
+    // 1. 이메일 중복 확인 (비즈니스 규칙)
+    if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+      throw new DomainException(DomainExceptionCode.DUPLICATE_EMAIL);
     }
 
-    //TODO : 특정 유저의 주문 내역을 같이 검색하고 싶을 때
-    // SELECT * FROM users u JOIN orders o ON o.user_id = u.id WHERE u_id = 1;
-    // row의 개수는 order의 개수랑 동일함
-    User user2 = userRepository.finduserWithOrders(1L).get();
+    // 2. 비밀번호 암호화
+    String encodedPassword = passwordEncoder.encode(request.getPassword());
+
+    // 3. DTO를 Entity로 변환하여 DB에 저장
+    User user = userMapper.toEntity(request, encodedPassword);
+    User savedUser = userRepository.save(user);
+
+    // 4. Entity를 Response DTO로 변환하여 Controller에 반환
+    return userMapper.toResponse(savedUser);
   }
 }

@@ -32,4 +32,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Query("SELECT u FROM User u JOIN FETCH u.orders WHERE u.id = :id")
   Optional<User> findUserWithOrders(@Param("id") Long id);
 
-}ㅎ
+}

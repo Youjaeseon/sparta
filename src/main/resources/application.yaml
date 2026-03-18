@@ -22,10 +22,10 @@ spring:
         # postgreSQL 버전에 맞는 Dialect(방언) 설정
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-  spring:
-    flyway:
-      enabled: true # Flyway 활성화
-      locations: classpath:db/migration # 마이그레이션 파일 위치 지정
+  # Flyway 설정
+  flyway:
+    enabled: true # Flyway 활성화
+    locations: classpath:db/migration # 마이그레이션 파일 위치 지정
 
 # 로깅 레벨 설정
 logging:
@@ -33,10 +33,11 @@ logging:
     # Hibernate가 실행하는 SQL 쿼리를 DEBUG 레벨로 로그에 출력
     org.hibernate.SQL: DEBUG
 
-springdoc:
-  swagger-ui:
-    enabled: true
-
 # 내장 웹 서버 설정
 server:
   port: 8080
+
+# Swagger UI 설정 (Springdoc)
+springdoc:
+  swagger-ui:
+    enabled: true
